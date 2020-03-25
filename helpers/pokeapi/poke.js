@@ -7,8 +7,8 @@ module.exports = {
             .then(res => cb(res.data))
             .catch(err => console.log(err))
     },
-    getEvolutionLine: (name, cb) => {
-        axios.get(`${base}/evolution-chain/${name}`)
+    getEvolutionLine: (id, cb) => {
+        axios.get(`${base}/evolution-chain/${id}`)
             .then(res => cb(res.data))
             .catch(err => console.log(err))
     }
