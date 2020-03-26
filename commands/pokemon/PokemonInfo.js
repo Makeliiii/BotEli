@@ -9,13 +9,16 @@ module.exports = class PokemonInfo extends Command {
                 {
                     id: 'name',
                     type: 'string',
-                    default: 'mudkip'
                 }
             ]
         })
     }
 
     exec(msg, args) {
+        if (args.name === null) {
+            return msg.reply(' you must provide the id or name of the pokemon!')
+        }
+
         let id = args.name.toLowerCase()
         
         getPokemon(id, (res) => {
