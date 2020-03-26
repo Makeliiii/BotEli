@@ -34,6 +34,9 @@ module.exports = class PokemonInfo extends Command {
             const embed = {
                 title: capitalize(name),
                 url: `https://bulbapedia.bulbagarden.net/wiki/${capitalize(name)}`,
+                thumbnail: {
+                    url: sprites.front_default
+                },
                 fields: [
                     {
                         name: '**ID**',
@@ -69,9 +72,6 @@ module.exports = class PokemonInfo extends Command {
                         inline: true
                     },
                 ],
-                thumbnail: {
-                    url: sprites.front_default
-                },
                 timestamp: new Date(),
                 footer: {
                     text: 'Leninardo',
