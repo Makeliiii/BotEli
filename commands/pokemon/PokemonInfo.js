@@ -1,10 +1,13 @@
 const { Command } = require('discord-akairo')
 const { getPokemon } = require('../../helpers/pokeapi/pokemon')
+const { capitalize } = require('../../helpers/tools/tools')
 
 module.exports = class PokemonInfo extends Command {
     constructor() {
         super('pokemon', {
             aliases: ['pokemon', 'pokemoninfo'],
+            cooldown: 10000,
+            ratelimit: 1,
             args: [
                 {
                     id: 'name',
@@ -16,21 +19,17 @@ module.exports = class PokemonInfo extends Command {
 
     exec(msg, args) {
         if (args.name === null) {
-            return msg.reply(' you must provide the id or name of the pokemon!')
+            return msg.channel.send('Please provide correct arguments!')
         }
 
         let id = args.name.toLowerCase()
         
         getPokemon(id, (res) => {
-            if (res.statusCode === 404) {
+            const { name, id, height, weight, types, sprites, base_experience, abilities, statusCode } = res
+
+            if (statusCode === 404) {
                 return msg.channel.send('Pokemon not found!')
             }
-
-            const capitalize = function(string) {
-                return string.charAt(0).toUpperCase() + string.slice(1)
-            }
-
-            const { stats, name, id, height, weight, types, sprites, base_experience, abilities } = res
 
             const embed = {
                 title: capitalize(name),
