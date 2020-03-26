@@ -38,36 +38,13 @@ module.exports = class PokemonStats extends Command {
                     url: sprites.front_default
                 },
                 fields: [
-                    {
-                        name: `**${capitalize(stats[0].stat.name)}**`,
-                        value: stats[0].base_stat,
-                        inline: true
-                    },
-                    {
-                        name: `**${capitalize(stats[1].stat.name)}**`,
-                        value: stats[1].base_stat,
-                        inline: true
-                    },
-                    {
-                        name: `**${capitalize(stats[2].stat.name)}**`,
-                        value: stats[2].base_stat,
-                        inline: true
-                    },
-                    {
-                        name: `**${capitalize(stats[3].stat.name)}**`,
-                        value: stats[3].base_stat,
-                        inline: true
-                    },
-                    {
-                        name: `**${capitalize(stats[4].stat.name)}**`,
-                        value: stats[4].base_stat,
-                        inline: true
-                    },
-                    {
-                        name: `**${capitalize(stats[5].stat.name)}**`,
-                        value: stats[5].base_stat,
-                        inline: true
-                    },
+                    ...(stats.map(stat => {
+                        return {
+                            name: `**${capitalize(stat.stat.name)}**`,
+                            value: stat.base_stat,
+                            inline: true
+                        }
+                    }))
                 ],
                 timestamp: new Date(),
                 footer: {
