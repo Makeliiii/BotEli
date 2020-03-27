@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo')
-const { getMove } = require('../../utils/pokeAPI')
+const { getPokeAPI } = require('../../utils/pokeAPI')
 const { capitalize, capitalizeWords } = require('../../utils/tools')
 
 module.exports = class PokemonMoves extends Command {
@@ -23,10 +23,10 @@ module.exports = class PokemonMoves extends Command {
             return msg.channel.send('Please provide correct arguments!')
         }
 
-        let id = args.name.replace(/ /gi, '-')
+        const id = args.name.replace(/ /gi, '-')
         
-        getMove(id, (res) => {
-            const { id, name, accuracy, power, pp, stat_changes, effect_entries, effect_chance, type, statusCode } = res
+        getPokeAPI(id, 'move', (res) => {
+            const { id, name, accuracy, power, pp, stat_changes, effect_entries, effect_chance, flavor_text_entries, type, statusCode } = res
 
             if (statusCode === 404) {
                 return msg.channel.send('Move not found!')
@@ -34,8 +34,16 @@ module.exports = class PokemonMoves extends Command {
 
             const embed = {
                 title: capitalizeWords(name),
-                ...(effect_entries[0].effect.includes('$effect_chance%') ? { description: effect_entries[0].effect.replace(/\$effect_chance/gi, effect_chance) } : { description: effect_entries[0].effect }),
                 fields: [
+                    {
+                        name: '**Description**',
+                        value: flavor_text_entries[2].flavor_text,
+                        inline: true
+                    },
+                    {
+                        name: '**Effect**',
+                        ...(effect_entries[0].effect.includes('$effect_chance%') ? { value: effect_entries[0].effect.replace(/\$effect_chance/gi, effect_chance) } : { value: effect_entries[0].effect })
+                    },
                     {
                         name: '**ID**',
                         value: id,
@@ -63,7 +71,7 @@ module.exports = class PokemonMoves extends Command {
                     },
                     {
                         name: '**Stat changes**',
-                        ...(!Array.isArray(stat_changes) ? { value: 'None' } : { value: stat_changes.map(stat => {
+                        ...(!Array.isArray(stat_changes) || !stat_changes.length ? { value: 'None' } : { value: stat_changes.map(stat => {
                             return (
                                 `${stat.change} ${capitalize(stat.stat.name)}`
                             )

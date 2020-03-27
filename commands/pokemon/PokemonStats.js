@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo')
-const { getPokemon } = require('../../utils/pokeAPI')
+const { getPokeAPI } = require('../../utils/pokeAPI')
 const { capitalize } = require('../../utils/tools')
 
 module.exports = class PokemonStats extends Command {
@@ -22,9 +22,9 @@ module.exports = class PokemonStats extends Command {
             return msg.channel.send('Please provide correct arguments!')
         }
 
-        let id = args.name
+        const id = args.name
 
-        getPokemon(id, (res) => {
+        getPokeAPI(id, 'pokemon', (res) => {
             const { statusCode, stats, name, sprites } = res
 
             if (statusCode === 404) {
