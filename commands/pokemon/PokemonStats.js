@@ -11,7 +11,7 @@ module.exports = class PokemonStats extends Command {
             args: [
                 {
                     id: 'name',
-                    type: 'string'
+                    type: 'lowercase'
                 }
             ]
         })
@@ -22,7 +22,7 @@ module.exports = class PokemonStats extends Command {
             return msg.channel.send('Please provide correct arguments!')
         }
 
-        let id = args.name.toLowerCase()
+        let id = args.name
 
         getPokemon(id, (res) => {
             const { statusCode, stats, name, sprites } = res
