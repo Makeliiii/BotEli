@@ -10,9 +10,12 @@ module.exports = {
                 return cb(err.request.connection._httpMessage.res)
             })
     },
-    getEvolutionLine: (id, cb) => {
-        axios.get(`${base}/evolution-chain/${id}`)
+    getMove: (id, cb) => {
+        axios.get(`${base}/move/${id}`)
             .then(res => cb(res.data))
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err.request.connection._httpMessage.res.statusCode)
+                return cb(err.request.connection._httpMessage.res)
+            })
     }
 }
