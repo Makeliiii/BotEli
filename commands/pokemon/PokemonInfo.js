@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo')
-const { getPokemon } = require('../../helpers/pokeapi/pokemon')
-const { capitalize } = require('../../helpers/tools/tools')
+const { getPokemon } = require('../../utils/pokeAPI')
+const { capitalize } = require('../../utils/tools')
 
 module.exports = class PokemonInfo extends Command {
     constructor() {
