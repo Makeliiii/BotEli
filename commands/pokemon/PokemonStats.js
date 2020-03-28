@@ -22,9 +22,7 @@ module.exports = class PokemonStats extends Command {
             return msg.channel.send('Please provide correct arguments!')
         }
 
-        const id = args.name
-
-        getPokeAPI(id, 'pokemon', (res) => {
+        getPokeAPI(args.name, 'pokemon', (res) => {
             const { statusCode, stats, name, sprites } = res
 
             if (statusCode === 404) {

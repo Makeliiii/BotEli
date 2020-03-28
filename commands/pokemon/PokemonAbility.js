@@ -22,10 +22,8 @@ module.exports = class PokemonAbility extends Command {
             return msg.channel.send('Please provide correct arguments!')
         }
 
-        const id = args.name
-
-        getPokeAPI(id, 'ability', (res) => {
-            const { id, name, generation, effect_entries, flavor_text_entries, statusCode } = res
+        getPokeAPI(args.name, 'ability', (res) => {
+            const { id, name, effect_entries, flavor_text_entries, statusCode } = res
 
             if (statusCode === 404) {
                 return msg.channel.send('Ability not found')
