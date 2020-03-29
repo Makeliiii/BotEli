@@ -13,5 +13,23 @@ module.exports = {
 
         newString = arr.join(' ')
         return newString
+    },
+    toRoman: numeral => {
+        const roman = [
+            [1, 'i'],
+            [2, 'ii'],
+            [3, 'iii'],
+            [4, 'iv'],
+            [5, 'v'],
+            [6, 'vi'],
+            [7, 'vii'],
+            [8, 'viii'],
+        ]
+
+        for (let i = 0; i < roman.length; i++) {
+            if (numeral === roman[i][0]) {
+                return roman[i][1]
+            }
+        }
     }
 }
