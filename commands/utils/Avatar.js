@@ -4,6 +4,7 @@ module.exports = class AvatarCommand extends Command {
     constructor() {
         super('avatar', {
             aliases: ['avatar'],
+            category: 'util',
             args: [
                 {
                     id: 'size',

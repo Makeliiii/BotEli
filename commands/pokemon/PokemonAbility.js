@@ -5,9 +5,10 @@ const { capitalize } = require('../../utils/tools')
 module.exports = class PokemonAbility extends Command {
     constructor() {
         super('pokemonability', {
-            aliases: ['pokemonability', 'ability'],
+            aliases: ['ability', 'pokemonability'],
             cooldown: 10000,
             ratelimit: 1,
+            category: 'pokemon',
             args: [
                 {
                     id: 'name',
@@ -18,7 +19,7 @@ module.exports = class PokemonAbility extends Command {
     }
 
     exec(msg, args) {
-        if (args.name === null) {
+        if (!args.name) {
             return msg.channel.send('Please provide correct arguments!')
         }
 

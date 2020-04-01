@@ -8,6 +8,7 @@ module.exports = class PokemonStats extends Command {
             aliases: ['stats', 'pokemonstats'],
             cooldown: 10000,
             ratelimit: 1,
+            category: 'pokemon',
             args: [
                 {
                     id: 'name',
@@ -18,7 +19,7 @@ module.exports = class PokemonStats extends Command {
     }
 
     exec(msg, args) {
-        if (args.name === null) {
+        if (!args.name) {
             return msg.channel.send('Please provide correct arguments!')
         }
 

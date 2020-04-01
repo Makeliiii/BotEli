@@ -5,9 +5,10 @@ const { capitalize, capitalizeWords } = require('../../utils/tools')
 module.exports = class PokemonMoves extends Command {
     constructor() {
         super('pokemonmoves', {
+            aliases: ['move', 'pokemonmove'],
             cooldown: 10000,
             ratelimit: 1,
-            aliases: ['pokemonmove', 'move'],
+            category: 'pokemon',
             args: [
                 {
                     id: 'name',
@@ -19,7 +20,7 @@ module.exports = class PokemonMoves extends Command {
     }
 
     exec(msg, args) {
-        if (args.name === null) {
+        if (!args.name) {
             return msg.channel.send('Please provide correct arguments!')
         }
 
