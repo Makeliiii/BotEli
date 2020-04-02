@@ -5,6 +5,7 @@ module.exports = class AvatarCommand extends Command {
         super('avatar', {
             aliases: ['avatar'],
             category: 'util',
+            description: 'Get your avatar',
             args: [
                 {
                     id: 'size',

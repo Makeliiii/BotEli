@@ -3,6 +3,7 @@ const { Command } = require('discord-akairo')
 module.exports = class PingCommand extends Command {
     constructor() {
         super('ping', {
+            description: 'ping',
             aliases: ['ping']
         })
     }

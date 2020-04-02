@@ -9,6 +9,7 @@ module.exports = class PokemonStats extends Command {
             cooldown: 10000,
             ratelimit: 1,
             category: 'pokemon',
+            description: 'Returns the stats of a specific pokemon.',
             args: [
                 {
                     id: 'name',
