@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo')
+const { MessageEmbed } = require('discord.js')
 const { getPokeAPI } = require('../../utils/pokeAPI')
 const { capitalize } = require('../../utils/tools')
 
@@ -31,28 +32,17 @@ module.exports = class PokemonStats extends Command {
                 return msg.channel.send('Pokemon not found!')
             }
 
-            const embed = {
-                title: `${capitalize(name)}'s Stats`,
-                url: `https://bulbapedia.bulbagarden.net/wiki/${capitalize(name)}#Stats`,
-                thumbnail: {
-                    url: sprites.front_default
-                },
-                fields: [
-                    ...(stats.map(stat => {
-                        return {
-                            name: `**${capitalize(stat.stat.name)}**`,
-                            value: stat.base_stat,
-                            inline: true
-                        }
-                    }))
-                ],
-                timestamp: new Date(),
-                footer: {
-                    text: 'Leninardo',
-                },
+            const embed = new MessageEmbed()
+                .setTitle(`${capitalize(name)}'s Stats`)
+                .setThumbnail(sprites.front_default)
+                .setTimestamp(new Date())
+                .setFooter('Leninardo')
+
+            for (let stat of stats) {
+                embed.addField(capitalize(stat.stat.name), stat.base_stat, true)
             }
 
-            return msg.channel.send({ embed })
+            return msg.channel.send(embed)
         })
     }
 }

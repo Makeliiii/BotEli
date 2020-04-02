@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo')
+const { MessageEmbed } = require('discord.js')
 const { getPokeAPI } = require('../../utils/pokeAPI')
 const { capitalize, capitalizeWords } = require('../../utils/tools')
 
@@ -34,60 +35,29 @@ module.exports = class PokemonMoves extends Command {
                 return msg.channel.send('Move not found!')
             }
 
-            const embed = {
-                title: capitalizeWords(name),
-                fields: [
-                    {
-                        name: '**Description**',
-                        value: flavor_text_entries[2].flavor_text,
-                        inline: true
-                    },
-                    {
-                        name: '**Effect**',
-                        ...(effect_entries[0].effect.includes('$effect_chance%') ? { value: effect_entries[0].effect.replace(/\$effect_chance/gi, effect_chance) } : { value: effect_entries[0].effect })
-                    },
-                    {
-                        name: '**ID**',
-                        value: id,
-                        inline: true
-                    },
-                    {
-                        name: '**Accuracy**',
-                        ...(accuracy === null ? { value: '—' } : { value: `${accuracy}%` }),
-                        inline: true
-                    },
-                    {
-                        name: '**Power**',
-                        ...(power === null ? { value: '—' } : { value: `${power}` }),
-                        inline: true
-                    },
-                    {
-                        name: '**PP**',
-                        value: pp,
-                        inline: true
-                    },
-                    {
-                        name: '**Type**',
-                        value: capitalize(type.name),
-                        inline: true
-                    },
-                    {
-                        name: '**Stat changes**',
-                        ...(!Array.isArray(stat_changes) || !stat_changes.length ? { value: 'None' } : { value: stat_changes.map(stat => {
-                            return (
-                                `${stat.change} ${capitalize(stat.stat.name)}`
-                            )
-                        })}),
-                        inline: true
-                    },
-                ],
-                timestamp: new Date(),
-                footer: {
-                    text: 'Leninardo',
-                },
-            }
+            const embed = new MessageEmbed()
+                .setTitle(capitalizeWords(name))
+                .addField('**Description**', flavor_text_entries[2].flavor_text)
+                .addField(
+                    '**Effect**',
+                    effect_entries[0].effect.includes('$effect_chance%') ? effect_entries[0].effect.replace(/\$effect_chance/gi, effect_chance) : effect_entries[0].effect,
+                )
+                .addField('**ID**', id, true)
+                .addField('**Accuracy**', !accuracy ? '—' : accuracy, true)
+                .addField('**Power**', !power ? '—' : power, true)
+                .addField('**PP**', pp, true)
+                .addField('**Type**', capitalize(type.name), true)
+                .addField(
+                    '**Stat Changes**',
+                    !Array.isArray(stat_changes) || !stat_changes.length ? 'None' : stat_changes.map(stat => {
+                        return `${stat.change} ${capitalize(stat.stat.name)}`
+                    }),
+                    true
+                )
+                .setTimestamp(new Date())
+                .setFooter('Leninardo')
 
-            return msg.channel.send({ embed })
+            return msg.channel.send(embed)
         })
     }
 }

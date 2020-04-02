@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo')
+const { MessageEmbed } = require('discord.js')
 const { getPokeAPI } = require('../../utils/pokeAPI')
 const { capitalize } = require('../../utils/tools')
 
@@ -29,33 +30,17 @@ module.exports = class PokemonNature extends Command {
         getPokeAPI(args.name, 'nature', (res) => {
             const { name, id, increased_stat, decreased_stat, likes_flavor, hates_flavor } = res
 
-            const embed = {
-                title: capitalize(name),
-                fields: [
-                    {
-                        name: '**ID**',
-                        value: id,
-                    },
-                    {
-                        name: '**Increased Stat**',
-                        ...(increased_stat === null ? { value: 'None' } : { value: capitalize(increased_stat.name) }),
-                    },
-                    {
-                        name: '**Decreased Stat**',
-                        ...(decreased_stat === null ? { value: 'None' } : { value: capitalize(decreased_stat.name) }),
-                    },
-                    {
-                        name: '**Likes Flavor**',
-                        ...(likes_flavor === null ? { value: 'None' } : { value: capitalize(likes_flavor.name) }),
-                    },
-                    {
-                        name: '**Hates Flavor**',
-                        ...(hates_flavor === null ? { value: 'None' } : { value: capitalize(hates_flavor.name) }),
-                    },
-                ]
-            }
+            const embed = new MessageEmbed()
+                .setTitle(capitalize(name))
+                .addField('**ID**', id)
+                .addField('**Increased Stat**', !increased_stat ? 'None' : capitalize(increased_stat.name))
+                .addField('**Decreased Stat**', !decreased_stat ? 'None' : capitalize(decreased_stat.name))
+                .addField('**Likes Flavor**', !likes_flavor ? 'None' : capitalize(likes_flavor.name))
+                .addField('**Hates Flavor**', !hates_flavor ? 'None' : capitalize(hates_flavor.name))
+                .setTimestamp(new Date())
+                .setFooter('Leninardo')
 
-            return msg.channel.send({ embed })
+            return msg.channel.send(embed)
         })
     }
 }
