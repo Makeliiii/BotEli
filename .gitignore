@@ -1,3 +1,4 @@
 /node_modules
 .env
-utils/test.js
+src/utils/test.js
+/dist
