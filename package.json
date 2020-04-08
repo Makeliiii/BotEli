@@ -1,7 +1,7 @@
 {
   "name": "leninardo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Leninardo bot",
   "main": "dist/index.js",
   "scripts": {
     "test": "test",
@@ -9,8 +9,16 @@
     "build": "babel src -d dist",
     "start": "npm run build && node ."
   },
+  "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Makeliiii/Leninardo.git"
+  },
   "author": "Makeli <t8majo03@students.oamk.fi> (https://github.com/Makeliiii)",
-  "license": "ISC",
+  "license": "MIT",
+  "bugs": {
+      "url": "https://github.com/Makeliiii/Leninardo/issues"
+  },
+  "homepage": "https://github.com/Makeliiii/Leninardo/blob/master/README.md",
   "dependencies": {
     "axios": "^0.19.2",
     "discord-akairo": "^8.0.0",
