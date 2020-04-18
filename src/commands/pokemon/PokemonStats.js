@@ -25,24 +25,24 @@ export default class PokemonStats extends Command {
             return msg.channel.send('Please provide correct arguments!')
         }
 
-        getPokeAPI(args.name, 'pokemon', (res) => {
-            const { statusCode, stats, name, sprites } = res
+        getPokeAPI(args.name, 'pokemon')
+            .then(pokemon => {
+                const { stats, name, sprites } = pokemon
 
-            if (statusCode === 404) {
-                return msg.channel.send('Pokemon not found!')
-            }
+                const embed = new MessageEmbed()
+                    .setTitle(`${capitalize(name)}'s Stats`)
+                    .setThumbnail(sprites.front_default)
+                    .setTimestamp(new Date())
+                    .setFooter('Leninardo')
 
-            const embed = new MessageEmbed()
-                .setTitle(`${capitalize(name)}'s Stats`)
-                .setThumbnail(sprites.front_default)
-                .setTimestamp(new Date())
-                .setFooter('Leninardo')
+                for (let stat of stats) {
+                    embed.addField(capitalize(stat.stat.name), stat.base_stat, true)
+                }
 
-            for (let stat of stats) {
-                embed.addField(capitalize(stat.stat.name), stat.base_stat, true)
-            }
-
-            return msg.channel.send(embed)
-        })
+                return msg.channel.send(embed)
+            })
+            .catch(err => {
+                return msg.channel.send(`Server responded with a status code of ${err.statusCode} and with message: ${err.statusMessage}`)
+            })
     }
 }
