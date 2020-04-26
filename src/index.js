@@ -1,9 +1,11 @@
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo'
+import { Player } from 'discord-player'
 import dotenv from 'dotenv'
 
 dotenv.config()
 const ownerID = process.env.ownerID
 const token = process.env.TOKEN
+const youtube = process.env.youtube
 
 class Client extends AkairoClient {
     constructor() {
@@ -28,4 +30,7 @@ class Client extends AkairoClient {
 }
 
 const client = new Client()
+const player = new Player(client, youtube)
+client.player = player
+
 client.login(token)
