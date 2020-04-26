@@ -1,6 +1,7 @@
 # Leninardo
-Discord bot that I'm making for my server
+Useless bot
 
 ## TODO
-- A lot of stuff
-- Pokemon commands
+- - [x] Pokemon commands
+- - [ ] Music commands
+- - [ ] Some commands with Jisho.org API
