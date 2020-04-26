@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo'
 
-module.exports = class AvatarCommand extends Command {
+export default class AvatarCommand extends Command {
     constructor() {
         super('avatar', {
             aliases: ['avatar'],

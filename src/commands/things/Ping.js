@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo'
 
-module.exports = class PingCommand extends Command {
+export default class PingCommand extends Command {
     constructor() {
         super('ping', {
             description: 'ping',

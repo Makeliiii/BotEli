@@ -2,7 +2,7 @@ import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
 import { capitalize } from '../../utils/tools'
 
-module.exports = class HelpCommand extends Command {
+export default class HelpCommand extends Command {
     constructor() {
         super('help', {
             aliases: ['help'],
