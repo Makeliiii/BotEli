@@ -20,12 +20,12 @@ export default class PokemonNature extends Command {
         })
     }
 
-    exec(msg, args) {
+    async exec(msg, args) {
         if (!args.name) {
             return msg.channel.send('Please provide correct arguments!')
         }
 
-        getPokeAPI(args.name, 'nature')
+        await getPokeAPI(args.name, 'nature')
             .then(nature => {
                 const { name, id, increased_stat, decreased_stat, likes_flavor, hates_flavor } = nature
 

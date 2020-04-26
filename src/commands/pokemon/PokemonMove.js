@@ -21,14 +21,14 @@ export default class PokemonMoves extends Command {
         })
     }
 
-    exec(msg, args) {
+    async exec(msg, args) {
         if (!args.name) {
             return msg.channel.send('Please provide correct arguments!')
         }
 
         const id = args.name.replace(/ /gi, '-')
 
-        getPokeAPI(id, 'move')
+        await getPokeAPI(id, 'move')
             .then(move => {
                 const { id, name, accuracy, power, pp, stat_changes, effect_entries, effect_chance, flavor_text_entries, type } = move
 

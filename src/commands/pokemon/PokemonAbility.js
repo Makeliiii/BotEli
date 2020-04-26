@@ -20,12 +20,12 @@ export default class PokemonAbility extends Command {
         })
     }
 
-    exec(msg, args) {
+    async exec(msg, args) {
         if (!args.name) {
             return msg.channel.send('Please provide correct arguments!')
         }
 
-        getPokeAPI(args.name, 'ability')
+        await getPokeAPI(args.name, 'ability')
             .then(ability => {
                 const { id, name, effect_entries, flavor_text_entries } = ability
     

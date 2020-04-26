@@ -20,12 +20,12 @@ export default class PokemonInfo extends Command {
         })
     }
 
-    exec(msg, args) {
+    async exec(msg, args) {
         if (!args.name) {
             return msg.channel.send('Please provide correct arguments!')
         }
 
-        getPokeAPI(args.name, 'pokemon')
+        await getPokeAPI(args.name, 'pokemon')
             .then(pokemon => {
                 const { name, id, height, weight, types, sprites, base_experience, abilities } = pokemon
 
