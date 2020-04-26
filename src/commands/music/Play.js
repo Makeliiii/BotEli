@@ -19,21 +19,30 @@ export default class Play extends Command {
     }
 
     async exec(msg, args) {
+        if (!args.url) {
+            return msg.channel.send('Please provide an argument!')
+        }
+
         if (!msg.member.voice.channel) {
             return msg.channel.send('You must be in a voice channel to play music!')
         }
 
-        await player.play(msg.member.voice.channel, args.url)
-            .then(song => {
-                console.log(song)
-                if (!song) {
-                    return msg.channel.send('Song not found.')
-                }
-
-                return msg.channel.send(`Now playing: ${song.name}`)
-            })
-            .catch(() => {
-                return msg.channel.send('No song found')
-            })
+        if (player.isPlaying(msg.guild.id)) {
+            await player.addToQueue(msg.guild.id, args.url)
+                .then(song => {
+                    return msg.channel.send(`Song: ${song.name} added to que!`)
+                })
+                .catch(() => {
+                    return msg.channel.send('No song found!')
+                })
+        } else {
+            await player.play(msg.member.voice.channel, args.url)
+                .then(song => {
+                    return msg.channel.send(`Now playing: ${song.name}!`)
+                })
+                .catch(() => {
+                    return msg.channel.send('No song found!')
+                })
+        }
     }
 }
