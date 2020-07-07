@@ -70,15 +70,14 @@ export default class Play extends Command {
                         return
                     }
 
-                    const dispatcher = queue.connection.play(ytdl(song.url))
+                    const dispatcher = queue.connection.play(ytdl(song.url), { volume: 0.2 })
                         .on('finish', () => {
                             queue.songs.shift()
                             play(queue.songs[0])
                         })
                         .on('error', error => console.log(error))
 
-                    dispatcher.setVolumeLogarithmic(queue.volume / 5)
-                    queue.tc.send(`Started playing: **${song.title}**`)
+                    msg.channel.send(`Started playing: **${song.title}**`)
                 }
 
                 try {
