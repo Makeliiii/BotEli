@@ -1,5 +1,6 @@
 import { Command } from 'discord-akairo'
-import { player } from '../../index'
+import ytdl from 'ytdl-core'
+import { search } from '../../utils/youtube'
 
 export default class Play extends Command {
     constructor() {
@@ -26,23 +27,36 @@ export default class Play extends Command {
         if (!msg.member.voice.channel) {
             return msg.channel.send('You must be in a voice channel to play music!')
         }
+        
+        await search(args.url)
+            .then(video => {
+                const url = `https://www.youtube.com/watch?v=${video.id}`
 
-        if (player.isPlaying(msg.guild.id)) {
-            await player.addToQueue(msg.guild.id, args.url)
-                .then(song => {
-                    return msg.channel.send(`Song: ${song.name} added to que!`)
-                })
-                .catch(() => {
-                    return msg.channel.send('No song found!')
-                })
-        } else {
-            await player.play(msg.member.voice.channel, args.url)
-                .then(song => {
-                    return msg.channel.send(`Now playing: ${song.name}!`)
-                })
-                .catch(() => {
-                    return msg.channel.send('No song found!')
-                })
-        }
+                const serverQue = msg.client.queue.get(msg.guild.id)
+                const songInfo = ytdl.getInfo(url, '$1')
+                const song = {
+                    id: songInfo.video_id,
+                    title: songInfo.title,
+                    url: songInfo.video_url
+                }
+
+                if (serverQue) {
+                    serverQue.songs.push(song)
+                    console.log(serverQue.songs)
+                    return msg.channel.send(`**${song.title}** has been added to the queue!`)
+                }
+                
+                const queueConstruct = {
+                    tc: msg.channel,
+                    vc: msg.member.voice.channel,
+                    connection: null,
+                    songs: [],
+                    volume: 2,
+                    playing: true
+                }
+
+                msg.client.queue.set(msg.guild.id, queueConstruct)
+                queueConstruct.songs.push(song)
+            })
     }
 }
