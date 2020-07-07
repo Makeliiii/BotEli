@@ -20,6 +20,8 @@ export default class LeninardoClient extends AkairoClient {
 
         this.commandHandler.loadAll()
         this.listenerHandler.loadAll()
+        
+        this.queue = new Map()
     }
 
     start() {
