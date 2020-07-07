@@ -1,5 +1,5 @@
 import YouTube from 'simple-youtube-api'
-import isUrl from 'isurl'
+import isUrl from 'is-url'
 
 const youtube = new YouTube(process.env.YOUTUBE)
 
