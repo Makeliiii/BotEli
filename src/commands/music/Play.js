@@ -32,87 +32,88 @@ export default class Play extends Command {
         
         await search(args.url)
             .then(async video => {
-                if (Array.isArray(video) || !video.length) {
-                    console.log(video)
+                const serverQue = msg.client.queue.get(msg.guild.id)
+                let song = {}
+                let url
 
+                if (Array.isArray(video)) {
                     const responses = [1, 2, 3, 4, 5]
-
                     const filter = response => {
                         return responses.some(res => res.toString() === response.content)
                     }
 
                     msg.channel.send(`**The search turned up these songs/videos:** \n\n1. **${video[0].title}**\n2. **${video[1].title}**\n3. **${video[2].title}**\n4. **${video[3].title}**\n5. **${video[4].title}**\n\n**Type the number of the song you'd like to be played.**`)
                         .then(() => {
-                            msg.channel.awaitMessages(filter, { max: 1, time: 30000 })
+                            msg.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] })
                                 .then(collected => {
                                     console.log(collected)
                                     msg.channel.send(`${collected.first()}`)
                                 })
+                                .catch(collected => {
+                                    msg.channel.send(`Why no answer pepeHands...`)
+                                })
                         })
                 } else {
-                    const url = `https://www.youtube.com/watch?v=${video.id}`
+                    url = `https://www.youtube.com/watch?v=${video.id}`
 
-                    const serverQue = msg.client.queue.get(msg.guild.id)
-                    const song = {
+                    song = {
                         id: video.id,
                         title: video.title,
                         url: url
                     }
-    
-                    console.log(song)
-    
-                    if (serverQue) {
-                        serverQue.songs.push(song)
-                        console.log(serverQue.songs)
-                        return msg.channel.send(`**${song.title}** has been added to the queue!`)
-                    }
+                }
+
+                if (serverQue) {
+                    serverQue.songs.push(song)
+                    console.log(serverQue.songs)
+                    return msg.channel.send(`**${song.title}** has been added to the queue!`)
+                }
                     
-                    const queueConstruct = {
-                        tc: msg.channel,
-                        vc: channel,
-                        connection: null,
-                        songs: [],
-                        volume: 2,
-                        playing: true
-                    }
+                const queueConstruct = {
+                    tc: msg.channel,
+                    vc: channel,
+                    connection: null,
+                    songs: [],
+                    volume: 2,
+                    playing: true
+                }
     
-                    msg.client.queue.set(msg.guild.id, queueConstruct)
-                    queueConstruct.songs.push(song)
+                msg.client.queue.set(msg.guild.id, queueConstruct)
+                queueConstruct.songs.push(song)
     
-                    const play = async song => {
-                        const queue = msg.client.queue.get(msg.guild.id)
+                const play = async song => {
+                    const queue = msg.client.queue.get(msg.guild.id)
     
-                        if (!song) {
-                            queue.vc.leave()
-                            msg.client.queue.delete(msg.guild.id)
-                            return
-                        }
-    
-                        const dispatcher = queue.connection.play(ytdl(song.url), { volume: 0.2 })
-                            .on('finish', () => {
-                                queue.songs.shift()
-                                play(queue.songs[0])
-                            })
-                            .on('error', error => console.log(error))
-    
-                        msg.channel.send(`Started playing: **${song.title}**`)
-                    }
-    
-                    try {
-                        const connection = await channel.join();
-                        queueConstruct.connection = connection
-                        play(queueConstruct.songs[0])
-                    } catch (error) {
-                        console.log(`Could not join the voice channel: ${error}`)
+                    if (!song) {
+                        queue.vc.leave()
                         msg.client.queue.delete(msg.guild.id)
-                        await channel.leave()
-                        return msg.channel.send(`Could not join the voice channel: ${error}`)
+                        return
                     }
+    
+                    const dispatcher = await queue.connection.play(ytdl(song.url), { volume: 0.2 })
+                        .on('finish', () => {
+                            queue.songs.shift()
+                            play(queue.songs[0])
+                        })
+                        .on('error', error => console.log(error))
+    
+                    msg.channel.send(`Started playing: **${song.title}**`)
+                }
+    
+                try {
+                    const connection = await channel.join();
+                    queueConstruct.connection = connection
+                    play(queueConstruct.songs[0])
+                } catch (error) {
+                    console.log(`Could not join the voice channel: ${error}`)
+                    msg.client.queue.delete(msg.guild.id)
+                    await channel.leave()
+                    return msg.channel.send(`Could not join the voice channel: ${error}`)
                 }
             })
             .catch(err => {
                 console.log(err)
-                return msg.channel.send(`Something went wrong!`)
+                return msg.channel.send(`Error: ${err}`)
             })
     }
 }
