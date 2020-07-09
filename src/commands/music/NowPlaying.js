@@ -1,9 +1,9 @@
 import { Command } from 'discord-akairo'
 
-export default class Pause extends Command {
+export default class NowPlaying extends Command {
     constructor() {
         super('nowplaying', {
-            aliases: ['nowplaying', 'np'],
+            aliases: ['np', 'nowplaying'],
             ratelimit: 1,
             category: 'music',
             description: 'Get the song currently playing.',
