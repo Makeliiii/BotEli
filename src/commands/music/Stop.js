@@ -6,7 +6,7 @@ export default class Stop extends Command {
             aliases: ['stop', 'lopeta'],
             ratelimit: 1,
             category: 'music',
-            description: 'Stop playing songs.',
+            description: 'Stop playing music.',
         })
     }
 
@@ -19,5 +19,7 @@ export default class Stop extends Command {
 
         serverQue.songs = []
         serverQue.connection.dispatcher.end('Stop has been used!')
+
+        return msg.channel.send(`Stopped playing music, queue has been cleared.`)
     }
 }

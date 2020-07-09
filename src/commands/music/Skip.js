@@ -18,5 +18,7 @@ export default class Skip extends Command {
         if (!serverQue) return msg.channel.send('There is nothing playing...')
 
         serverQue.connection.dispatcher.end('Skip has been used!')
+
+        return msg.channel.send(`Skipped **${serverQue.songs[0].title}**`)
     }
 }
