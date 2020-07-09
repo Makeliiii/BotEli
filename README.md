@@ -3,5 +3,5 @@ Useless bot
 
 ## TODO
 - - [x] Pokemon commands
-- - [ ] Music commands
+- - [x] Music commands
 - - [ ] Some commands with Jisho.org API
