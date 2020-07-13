@@ -17,9 +17,7 @@ export default class EightBall extends Command {
     }
 
     exec(msg, args) {
-        if (!args.question) {
-            return msg.channel.send('Please ask a yes/no question.')
-        }
+        if (!args.question) return msg.channel.send('Please ask a yes/no question.')
 
         const answers = [
             'It is certain.',
@@ -43,6 +41,7 @@ export default class EightBall extends Command {
             'Outlook not so good.',
             'Very doubtful.'
         ]
+        
         const index = Math.floor(Math.random() * Math.floor(answers.length))
 
         return msg.channel.send(answers[index])

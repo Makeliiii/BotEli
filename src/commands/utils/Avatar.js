@@ -17,9 +17,7 @@ export default class AvatarCommand extends Command {
     }
 
     exec(msg, args) {
-        if (args.size % 16 != 0 || args.size > 2049) {
-            return msg.reply(`that's not a valid image size.`)
-        }
+        if (args.size % 16 != 0 || args.size > 2049) return msg.reply(`that's not a valid image size.`)
 
         let avatarOPTS = {
             format: 'png',

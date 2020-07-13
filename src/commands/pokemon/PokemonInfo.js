@@ -21,9 +21,7 @@ export default class PokemonInfo extends Command {
     }
 
     async exec(msg, args) {
-        if (!args.name) {
-            return msg.channel.send('Please provide correct arguments!')
-        }
+        if (!args.name) return msg.channel.send('Please provide correct arguments!')
 
         await getPokeAPI(args.name, 'pokemon')
             .then(pokemon => {
@@ -44,9 +42,8 @@ export default class PokemonInfo extends Command {
                     .addField(
                         '**Abilities**',
                         abilities.map(ability => {
-                            if (ability.is_hidden) {
-                                return `${capitalize(ability.ability.name)} (Hidden)`
-                            }
+                            if (ability.is_hidden) return `${capitalize(ability.ability.name)} (Hidden)`
+                            
                             return capitalize(ability.ability.name)
                         }),
                         true

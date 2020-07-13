@@ -22,9 +22,7 @@ export default class PokemonMoves extends Command {
     }
 
     async exec(msg, args) {
-        if (!args.name) {
-            return msg.channel.send('Please provide correct arguments!')
-        }
+        if (!args.name) return msg.channel.send('Please provide correct arguments!')
 
         const id = args.name.replace(/ /gi, '-')
 
