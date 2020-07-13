@@ -3,11 +3,11 @@ import fs from 'fs'
 
 export default class PlaySound extends Command {
     constructor() {
-        super('sound', {
-            aliases: ['sound'],
+        super('playsound', {
+            aliases: ['playsound', 'sound'],
             ratelimit: 1,
             category: 'playsound',
-            description: 'Play a sound.',
+            description: 'Play a sound from the "database".',
             args: [
                 {
                     id: 'name',
@@ -21,10 +21,10 @@ export default class PlaySound extends Command {
     async exec(msg, args) {
         const { channel } = msg.member.voice
         const sound = `${__dirname}/../../../sounds/${args.name}.mp4`
+        const serverQue = msg.client.queue.get(msg.guild.id)
 
-        if (!channel) {
-            return msg.channel.send('You must join the voice channel to play a sound!')
-        }
+        if (!channel) return msg.channel.send('You must join the voice channel to play a sound!')
+        if (serverQue) return msg.channel.send(`Can't play sounds while there is music queued!`)
 
         const connection = await channel.join()
         const dispatcher = connection.play(fs.createReadStream(sound), { volume: 0.2 })
