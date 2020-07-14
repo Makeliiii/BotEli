@@ -5,3 +5,4 @@ Useless bot
 - - [x] Pokemon commands
 - - [x] Music commands
 - - [ ] Some commands with Jisho.org API
+- - [ ] Play Sound commands
