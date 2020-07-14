@@ -1,8 +1,3 @@
-import YouTube from 'simple-youtube-api'
-
-const token = process.env.YOUTUBE
-const youtube = new YouTube(token)
-
 const capitalize = string => {
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
@@ -39,11 +34,4 @@ const toRoman = numeral => {
     }
 }
 
-const findVideo = req => {
-    return new Promise((resolve, reject) => {
-        resolve(youtube.getVideo(req))
-            .then(video => video)
-    })
-}
-
-export { capitalize, capitalizeWords, toRoman, findVideo }
+export { capitalize, capitalizeWords, toRoman }
