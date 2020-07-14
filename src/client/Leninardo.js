@@ -1,10 +1,12 @@
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo'
 import { join } from 'path'
+import JishoApi from 'unofficial-jisho-api'
 
 export default class LeninardoClient extends AkairoClient {
     constructor(ownerID, token) {
         super({ ownerID })
         this.token = token
+        this.jisho = new JishoApi()
     }
 
     commandHandler = new CommandHandler(this, {
