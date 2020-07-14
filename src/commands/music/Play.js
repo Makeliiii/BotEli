@@ -22,13 +22,8 @@ export default class Play extends Command {
     async exec(msg, args) {
         const { channel } = msg.member.voice
 
-        if (!args.url) {
-            return msg.channel.send('Please provide an argument!')
-        }
-
-        if (!channel) {
-            return msg.channel.send('You must be in a voice channel to play music!')
-        }
+        if (!args.url) return msg.channel.send('Please provide an argument!')
+        if (!channel) return msg.channel.send('You must be in a voice channel to play music!')
         
         await search(args.url)
             .then(async video => {
