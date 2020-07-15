@@ -29,6 +29,8 @@ export default class SearchKanji extends Command {
                 const length = kanji.data.length
                 const filterArray = []
 
+                if (!length) return msg.channel.send('Found nothing...')
+
                 for (let i = 0; i < length; i++) {
                     filterArray.push(i + 1)
                 }
@@ -61,7 +63,19 @@ export default class SearchKanji extends Command {
 
                                 return msg.channel.send(embed)
                             })
+                            .catch(err => {
+                                console.log(err)
+                                return msg.channel.send(`Send this to Mäkeli: ${err}`)
+                            })
                     })
+                    .catch(err => {
+                        console.log(err)
+                        return msg.channel.send(`Send this to Mäkeli: ${err}`)
+                    })
+            })
+            .catch(err => {
+                console.log(err)
+                return msg.channel.send(`Send this to Mäkeli: ${err}`)
             })
     }
 }
