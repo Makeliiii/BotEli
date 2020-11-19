@@ -7,7 +7,7 @@
     "test": "test",
     "dev": "nodemon --exec babel-node src/index.js",
     "build": "babel src -d dist",
-    "start": "npm run build && node ."
+    "start": "node ."
   },
   "repository": {
     "type": "git",
