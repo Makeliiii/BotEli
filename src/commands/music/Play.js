@@ -125,12 +125,15 @@ export default class Play extends Command {
                             return
                         }
         
-                        const dispatcher = queue.connection.play(ytdl(song.url), { volume: 0.2, quality: 'highestaudio' highWaterMark: 1 << 25 })
+                        const dispatcher = queue.connection.play(ytdl(song.url), { volume: 0.2, quality: 'highestaudio', highWaterMark: 1 << 25 })
                             .on('finish', () => {
                                 queue.songs.shift()
                                 play(queue.songs[0])
                             })
-                            .on('error', error => console.log(error))
+                            .on('error', error => {
+                                console.log(error)
+                                return msg.channel.send(`No vittu ei: ${error}`)
+                            })
         
                         msg.channel.send(`Started playing: **${song.title}**`)
                     }
