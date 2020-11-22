@@ -73,7 +73,7 @@ export default class Play extends Command {
                                             return
                                         }
                         
-                                        const dispatcher = queue.connection.play(ytdl(song.url), { volume: 0.2 })
+                                        const dispatcher = queue.connection.play(ytdl(song.url), { volume: 0.2, quality: 'highestaudio' })
                                             .on('finish', () => {
                                                 queue.songs.shift()
                                                 play(queue.songs[0])
