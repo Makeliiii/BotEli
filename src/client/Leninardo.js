@@ -19,7 +19,6 @@ export default class LeninardoClient extends AkairoClient {
 
     init() {
         this.commandHandler.useListenerHandler(this.listenerHandler)
-
         this.commandHandler.loadAll()
         this.listenerHandler.loadAll()
         
