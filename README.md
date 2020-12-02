@@ -10,7 +10,7 @@ A discord bot used in the great server of Suur-Jurva
 
 ## Install
 Install required packages
-```
+``` shell
 $ npm install
 ```
 
